@@ -16,7 +16,14 @@ interface EditPersonModalProps {
 }
 
 export default function EditPersonModal({ person, open, onClose }: EditPersonModalProps) {
-  const { control, register, handleSubmit, setValue, reset } = useForm<Person>();
+  const {
+    control,
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm<Person>();
 
   React.useEffect(() => {
     setValue('id', person.id);
@@ -47,31 +54,54 @@ export default function EditPersonModal({ person, open, onClose }: EditPersonMod
           Edit Person
         </Typography>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            Id: {person.id}
-          </div>
-          <TextField {...register('name')} id="outlined-basic" label="Name" variant="outlined" />
-          <TextField {...register('role')} id="outlined-basic" label="Role" variant="outlined" />
+          <div> Id: {person.id} </div>
+          <TextField
+            {...register('name')}
+            id="outlined-basic"
+            label="Name"
+            variant="outlined"
+          />
+          <TextField
+            {...register('role')}
+            id="outlined-basic"
+            label="Role"
+            variant="outlined"
+          />
           <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">Salary type</InputLabel>
+            <InputLabel id="demo-simple-select-label">Salary type : {person.isPercent ? 'percent' : 'rate'}</InputLabel>
             <Controller
               name="isPercent"
               control={control}
               render={({ field }) => (
-                <Select
-                  {...field}
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                >
+                <Select {...field} labelId="demo-simple-select-label" id="demo-simple-select">
                   <MenuItem value={1}>percent</MenuItem>
                   <MenuItem value={0}>rate</MenuItem>
                 </Select>
               )}
             />
           </FormControl>
-          <TextField {...register('rate')} id="outlined-basic" label="Rate" variant="outlined" />
-          <TextField {...register('phoneNumber')} id="outlined-basic" label="Phone" variant="outlined" />
-          <TextField {...register('email')} id="outlined-basic" label="Email" variant="outlined" />
+          <TextField
+            {...register('rate', {
+              validate: (value) => !isNaN(Number(value)) || 'Rate must be a number',
+            })}
+            id="outlined-basic"
+            label="Rate"
+            variant="outlined"
+            error={!!errors.rate}
+            helperText={errors.rate?.message}
+          />
+          <TextField
+            {...register('phoneNumber')}
+            id="outlined-basic"
+            label="Phone"
+            variant="outlined"
+          />
+          <TextField
+            {...register('email')}
+            id="outlined-basic"
+            label="Email"
+            variant="outlined"
+          />
           <SaveCancelButtonsGroup SaveClick={handleSubmit(onSubmit)} CancelClick={handleClose} />
         </form>
       </Box>

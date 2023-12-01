@@ -46,16 +46,17 @@ function Header() {
                         component={Link}
                         to="/"
                         sx={{
-                            mr: 2,
+                            mr: 3,
                             display: { xs: 'none', md: 'flex' },
                             fontFamily: 'monospace',
-                            fontWeight: 700,
+                            fontWeight: 1000,
                             letterSpacing: '.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
+                            fontSize: 24,
                         }}
                     >
-                        AppName
+                        Obshak
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

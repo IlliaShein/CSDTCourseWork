@@ -8,7 +8,7 @@ import { FormControl, MenuItem, Select, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import InputLabel from '@mui/material/InputLabel';
 import { CreateContext } from '../../context/context';
-import { GetPersonsContext } from '../../Pages/PeoplePage';
+import { GetPersonsContext } from '../../App';
 
 interface AddPersonModalProps {
   open: boolean;
@@ -17,7 +17,13 @@ interface AddPersonModalProps {
 
 export default function AddPersonModel({ open, onClose }: AddPersonModalProps) {
   const { updatePersons } = CreateContext(GetPersonsContext);
-  const { control, register, handleSubmit, reset } = useForm<Person>();
+  const {
+    control,
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<Person>();
 
   const handleClose = () => {
     reset();
@@ -41,13 +47,28 @@ export default function AddPersonModel({ open, onClose }: AddPersonModalProps) {
         </Typography>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-        <TextField {...register('name')} id="outlined-basic" label="Name" variant="outlined" />
-        <TextField {...register('role')} id="outlined-basic" label="Role" variant="outlined" />
-          <FormControl fullWidth>
+          <TextField
+            {...register('name', { required: true })}
+            id="outlined-basic"
+            label="Name"
+            variant="outlined"
+            error={!!errors.name}
+            helperText={errors.name?.type === 'required' && 'Name is required'}
+          />
+          <TextField
+            {...register('role', { required: true })}
+            id="outlined-basic"
+            label="Role"
+            variant="outlined"
+            error={!!errors.role}
+            helperText={errors.role?.type === 'required' && 'Role is required'}
+          />
+          <FormControl fullWidth >
             <InputLabel id="demo-simple-select-label">Salary type</InputLabel>
             <Controller
               name="isPercent"
               control={control}
+              rules={{ required: 'Salary type is required' }}
               render={({ field }) => (
                 <Select
                   {...field}
@@ -60,9 +81,32 @@ export default function AddPersonModel({ open, onClose }: AddPersonModalProps) {
               )}
             />
           </FormControl>
-          <TextField {...register('rate')} id="outlined-basic" label="Rate" variant="outlined" />
-          <TextField {...register('phoneNumber')} id="outlined-basic" label="Phone" variant="outlined" />
-          <TextField {...register('email')} id="outlined-basic" label="Email" variant="outlined" />
+          <TextField
+            {...register('rate', {
+              required: true,
+              validate: (value) => !isNaN(Number(value)) || 'Rate must be a number',
+            })}
+            id="outlined-basic"
+            label="Rate"
+            variant="outlined"
+            error={!!errors.rate}
+            helperText={
+              (errors.rate?.type === 'required' && 'Rate is required') ||
+              (errors.rate?.type === 'validate' && errors.rate.message)
+            }
+          />
+          <TextField
+            {...register('phoneNumber')}
+            id="outlined-basic"
+            label="Phone"
+            variant="outlined"
+          />
+          <TextField
+            {...register('email')}
+            id="outlined-basic"
+            label="Email"
+            variant="outlined"
+          />
           <SaveCancelButtonsGroup SaveClick={handleSubmit(onSubmit)} CancelClick={handleClose} />
         </form>
       </Box>

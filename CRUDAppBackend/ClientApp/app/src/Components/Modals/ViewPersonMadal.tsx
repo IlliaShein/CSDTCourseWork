@@ -4,6 +4,7 @@ import Modal from '@mui/material/Modal';
 import { Button } from '@mui/material';
 import { Person } from '../../Interfaces/Person';
 
+
 interface ViewPersonModalProps {
   person: Person;
   open: boolean;
