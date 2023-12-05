@@ -1,9 +1,11 @@
+using AutoMapper;
+using CRUDAppBackend.DTOs;
 using CRUDAppBackend.Interfaces;
 using CRUDAppBackend.Managers;
 using CRUDAppBackend.Middlewares;
 using DbLib.Models.EntityFramework;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
+using System.Transactions;
 
 namespace CRUDAppBackend
 {
@@ -31,6 +33,7 @@ namespace CRUDAppBackend
                 options.UseSqlServer(connectionString));
 
             builder.Services.AddScoped<IPersonManager, PersonManager>();
+            builder.Services.AddScoped<IHistoryManager, HistoryManager>();
 
             builder.Services.AddAutoMapper(typeof(Program));
 

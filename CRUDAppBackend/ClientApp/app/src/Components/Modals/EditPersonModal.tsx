@@ -6,7 +6,7 @@ import SaveCancelButtonsGroup from '../SaveCancelButtonsGroup';
 import { FormControl, MenuItem, Select, TextField } from '@mui/material';
 import { Person } from '../../Interfaces/Person';
 import { useForm, Controller } from 'react-hook-form';
-import * as Api from '../../APIs/Api';
+import * as Api from '../../APIs/PeopleApi';
 import InputLabel from '@mui/material/InputLabel';
 
 interface EditPersonModalProps {

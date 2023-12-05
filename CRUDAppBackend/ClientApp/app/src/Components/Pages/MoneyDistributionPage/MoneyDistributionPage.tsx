@@ -1,10 +1,11 @@
-import { Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Box, Button, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import CurrencyButtons from "./CurrencyButtons";
 import { useState } from "react";
 import AddMembersModal from "../../Modals/AddMembersModal";
 import "../../../Styles/MoneyDistributionPageModals.css";
 import { Person } from "../../../Interfaces/Person";
 import { PersonPayment } from "../../../Interfaces/PersonPayment";
+import * as Api from '../../../APIs/HistoryApi';
 
 function MoneyDistributionPage() {
   const [isAddMembersModalOpen, setAddMembersModalOpen] = useState(false);
@@ -69,7 +70,7 @@ function MoneyDistributionPage() {
     let dollarsRest = dollarValue;
     const updatedSelectedPersons = persons.map((person: Person) => {
       const personPayment: PersonPayment = {
-        id: person.id,
+        id: 0,
         name: person.name,
         rate: person.rate,
         isPercent: person.isPercent,
@@ -98,6 +99,12 @@ function MoneyDistributionPage() {
     setSelectedPersons(updatedSelectedPersons);
   };
 
+  const createTransaction = (payments: PersonPayment[]) => {
+    if(payments.length != 0)
+    {
+      Api.createTransaction(payments);
+    }
+  }
 
   return (
     <div>
@@ -111,23 +118,25 @@ function MoneyDistributionPage() {
           onCurrencyChange={setCurrency}
           onInputChange={refineTableAfterCurrencyChanging}
         />
-        <Box sx={{ marginTop: 3}}>
-        <Button
-          variant="contained"
-          color="success"
-          size="large"
-          onClick={handleAddButtonClick}
-          sx={{ marginRight: 3}}
-        >
-          Add members
-        </Button>
-        <Button
-          variant="contained"
-          color="success"
-          size="large"
-        >
-          Save
-        </Button>
+        <Box sx={{ marginTop: 3 }}>
+          <Stack direction="row" spacing={2}>
+            <Button
+              variant="contained"
+              color="success"
+              size="large"
+              onClick={handleAddButtonClick}
+            >
+              Add members
+            </Button>
+            <Button
+              variant="contained"
+              color="success"
+              size="large"
+              onClick={() => createTransaction(selectedPersons)}
+            >
+              Save
+            </Button>
+          </Stack>
         </Box>
       </Box>
       <hr />

@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import SaveCancelButtonsGroup from '../SaveCancelButtonsGroup';
-import * as Api from '../../APIs/Api';
+import * as Api from '../../APIs/PeopleApi';
 import { Person } from '../../Interfaces/Person';
 import { FormControl, MenuItem, Select, TextField } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';

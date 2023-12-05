@@ -4,6 +4,7 @@ using CRUDAppBackend.Interfaces;
 using DbLib.Models.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using ReactCRUD.DB;
+using System.Transactions;
 
 namespace CRUDAppBackend.Managers
 {
@@ -20,38 +21,38 @@ namespace CRUDAppBackend.Managers
 
         public async Task<List<PersonDTO>> GetAll()
         {
-            var people = await _dbContext.Person.ToListAsync();
+            var people = await _dbContext.Persons.ToListAsync();
             return _mapper.Map<List<PersonDTO>>(people);
         }
 
         public async Task<PersonDTO> GetById(int id)
         {
-            var person = await _dbContext.Person.FindAsync(id);
+            var person = await _dbContext.Persons.FindAsync(id);
             return _mapper.Map<PersonDTO>(person);
         }
 
         public async Task Create(PersonDTO personDto)
         {
             var person = _mapper.Map<Person>(personDto);
-            await _dbContext.Person.AddAsync(person);
+            await _dbContext.Persons.AddAsync(person);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task Delete(int id)
         {
-            var person = await _dbContext.Person.FindAsync(id);
+            var person = await _dbContext.Persons.FindAsync(id);
             if (person == null)
             {
                 throw new InvalidOperationException($"Person with id \"{id}\" not found");
             }
 
-            _dbContext.Person.Remove(person);
+            _dbContext.Persons.Remove(person);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task Change(PersonDTO changedPersonDto)
         {
-            var existingPerson = await _dbContext.Person.FindAsync(changedPersonDto.Id);
+            var existingPerson = await _dbContext.Persons.FindAsync(changedPersonDto.Id);
             if (existingPerson == null)
             {
                 throw new InvalidOperationException($"Person with id \"{changedPersonDto.Id}\" not found");

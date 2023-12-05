@@ -1,5 +1,6 @@
 using CRUDAppBackend.DTOs;
 using CRUDAppBackend.Interfaces;
+using CRUDAppBackend.Managers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ReactCRUD.Controllers
@@ -8,7 +9,7 @@ namespace ReactCRUD.Controllers
     [Route("[controller]")]
     public class PersonController : ControllerBase
     {
-        IPersonManager _personManager;
+        private IPersonManager _personManager;
 
         public PersonController(IPersonManager personManager)
         {

@@ -5,7 +5,8 @@ import MoneyDistributionPage from "./Components/Pages/MoneyDistributionPage/Mone
 import HistoryPage from "./Components/Pages/HistoryPage/HistoryPage";
 import { createContext, useEffect, useState } from "react";
 import { Person } from "./Interfaces/Person";
-import * as Api from "./APIs/Api";
+import * as Api from "./APIs/PeopleApi";
+import TransactionPage from "./Components/Pages/TransactionPage/TransactionPage";
 
 interface GetPersonsContextProps {
   updatePersons: () => Promise<void>;
@@ -14,7 +15,7 @@ interface GetPersonsContextProps {
 
 export const GetPersonsContext = createContext<GetPersonsContextProps | undefined>(undefined);
 
-function App() {
+const App = () => {
   const [persons, setPersons] = useState<Person[]>([]);
 
   useEffect(() => {
@@ -34,11 +35,11 @@ function App() {
           <Route path="/" element={<PeoplePage />} />
           <Route path="money-distribution" element={<MoneyDistributionPage />} />
           <Route path="history" element={<HistoryPage />} />
+          <Route path="history/:id" element={<TransactionPage />} />
         </Routes>
       </BrowserRouter>
     </GetPersonsContext.Provider>
   );
-}
+};
 
 export default App;
-

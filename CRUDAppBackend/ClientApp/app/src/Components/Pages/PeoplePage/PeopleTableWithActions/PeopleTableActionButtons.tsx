@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Stack } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Person } from '../../../../Interfaces/Person';
-import * as Api from '../../../../APIs/Api';
+import * as Api from '../../../../APIs/PeopleApi';
 import { CreateContext } from '../../../../context/context';
 import { GetPersonsContext } from '../../../../App';
 import PeopleTableModalsComponent from './PeopleTableModalsComponent';

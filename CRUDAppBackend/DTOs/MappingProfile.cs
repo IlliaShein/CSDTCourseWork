@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CRUDAppBackend.DB;
 using ReactCRUD.DB;
 
 namespace CRUDAppBackend.DTOs
@@ -8,6 +9,10 @@ namespace CRUDAppBackend.DTOs
         public MappingProfile()
         {
             CreateMap<PersonDTO, Person>().ReverseMap();
+            CreateMap<Transaction, TransactionDTO>().ReverseMap();
+            CreateMap<PersonPayment, PersonPaymentDTO>().ReverseMap();
         }
+
+
     }
 }
