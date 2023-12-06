@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import AddPersonModal from '../../Modals/AddPersonModal';
+import '../../../Styles/PeoplePageModals.css';
 
 const AddButtonWithModal: React.FC = () => {
     const [isAddPersonModalOpen, setAddPersonModalOpen] = useState(false);

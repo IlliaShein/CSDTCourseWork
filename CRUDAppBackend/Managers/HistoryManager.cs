@@ -24,7 +24,18 @@ namespace CRUDAppBackend.Managers
            return _mapper.Map<List<TransactionDTO>>(transactions);
         }
 
-        public async Task<List<PersonPaymentDTO>> GetPersonPaymentsByTransactionsId(int id)
+        public async Task<TransactionDTO> GetTransaction(int id)
+        {
+            var transaction = await _dbContext.Transactions.FindAsync(id);
+            if (transaction == null)
+            {
+                throw new InvalidOperationException($"Person with id \"{id}\" not found");
+            }
+
+            return _mapper.Map<TransactionDTO>(transaction);
+        }
+
+        public async Task<List<PersonPaymentDTO>> GetPersonPaymentsByTransactionId(int id)
         {
             var personPayments = await _dbContext.PersonPayments
                 .Where(payment => payment.Transaction.Id == id)

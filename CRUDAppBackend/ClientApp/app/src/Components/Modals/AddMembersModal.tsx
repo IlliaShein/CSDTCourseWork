@@ -9,13 +9,13 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Typography,
   Checkbox,
   Button,
 } from "@mui/material";
 import { GetPersonsContext } from "../../App";
 import { CreateContext } from "../../context/context";
 import { Person } from "../../Interfaces/Person";
+import '../../Styles/PeoplePageModals.css';
 
 interface AddPersonModalProps {
   open: boolean;
@@ -74,9 +74,9 @@ export default function AddMembersModal({
     <div>
       <Modal open={open} onClose={handleClose}>
         <Box className="modal-container-md">
-          <Typography className="modal-title-md" sx={{ mt: 2 }}>
+          <div className="Caption">
             Add Members
-          </Typography>
+          </div>
           <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>

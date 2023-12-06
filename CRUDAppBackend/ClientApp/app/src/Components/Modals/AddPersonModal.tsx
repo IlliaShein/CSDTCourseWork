@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import SaveCancelButtonsGroup from '../SaveCancelButtonsGroup';
 import * as Api from '../../APIs/PeopleApi';
@@ -9,6 +8,7 @@ import { Controller, useForm } from 'react-hook-form';
 import InputLabel from '@mui/material/InputLabel';
 import { CreateContext } from '../../context/context';
 import { GetPersonsContext } from '../../App';
+import '../../Styles/PeoplePageModals.css';
 
 interface AddPersonModalProps {
   open: boolean;
@@ -42,9 +42,9 @@ export default function AddPersonModel({ open, onClose }: AddPersonModalProps) {
   return (
     <Modal open={open} onClose={handleClose}>
       <Box className="modal-container">
-        <Typography className="modal-title" sx={{ mt: 2 }}>
+        <div className="Caption">
           Add new Person
-        </Typography>
+        </div>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <TextField

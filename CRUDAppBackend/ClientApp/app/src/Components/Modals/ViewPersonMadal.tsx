@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { Button } from '@mui/material';
 import { Person } from '../../Interfaces/Person';
+import '../../Styles/PeoplePageModals.css';
 
 
 interface ViewPersonModalProps {
@@ -17,10 +18,10 @@ export default function ViewPersonModal({ person, open, onClose }: ViewPersonMod
   return (
     <Modal open={open} onClose={handleClose}>
       <Box className="modal-container">
-        <Typography className="modal-title" sx={{ mt: 2 }}>
+        <div className="Caption" >
           View Person
-        </Typography>
-        <div className="info-block">
+        </div>
+        <div className="info-block Text">
           <hr />
           <div>Id: {person.id}</div>
           <div>Name: {person.name}</div>

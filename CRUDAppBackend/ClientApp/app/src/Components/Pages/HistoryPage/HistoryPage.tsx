@@ -30,6 +30,7 @@ function HistoryPage() {
         <Table>
           <TableHead>
             <TableRow>
+              <TableCell>Transaction ID</TableCell>
               <TableCell>Date</TableCell>
               <TableCell>Participants Count</TableCell>
               <TableCell>Dollar</TableCell>
@@ -40,6 +41,7 @@ function HistoryPage() {
           <TableBody>
             {transactions.map((transaction: Transaction) => (
               <TableRow>
+                <TableCell>{transaction.id}</TableCell>
                 <TableCell> {format(parseISO(transaction.creationTime.toString()), 'MM/dd/yyyy HH:mm')}</TableCell>
                 <TableCell>{transaction.participantsCount}</TableCell>
                 <TableCell>{transaction.dollarsSum}</TableCell>

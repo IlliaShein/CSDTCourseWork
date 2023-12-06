@@ -20,3 +20,17 @@
   display: flex;
   flex-direction: column;
 }
+
+.Caption {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+  font-family: roboto;
+}
+
+.Text {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+  font-family: roboto;
+}

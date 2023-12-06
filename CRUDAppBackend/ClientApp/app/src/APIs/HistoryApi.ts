@@ -9,8 +9,12 @@ async function getTransactions(): Promise<Transaction[]> {
   return await HandleErrors<Transaction[]>(() => axios.get(baseUrl));
 }
 
+async function getTransaction(id : number) : Promise<Transaction> {
+  return await HandleErrors<Transaction>(() => axios.get(`${baseUrl}/${id}`));
+}
+
 async function getTransactionPayments(id: number): Promise<PersonPayment[]> {
-  return await HandleErrors<PersonPayment[]>(() => axios.get(`${baseUrl}/${id}`));
+  return await HandleErrors<PersonPayment[]>(() => axios.get(`${baseUrl}/${id}/payments`));
 }
 
 async function deleteTransaction(transactionId: number): Promise<void> {
@@ -21,4 +25,4 @@ async function createTransaction(payments: PersonPayment[]): Promise<void> {
   return await HandleErrors<void>(() => axios.post(baseUrl, payments));
 }
 
-export { getTransactions, deleteTransaction, createTransaction, getTransactionPayments };
+export { getTransactions, getTransaction, deleteTransaction, createTransaction, getTransactionPayments };

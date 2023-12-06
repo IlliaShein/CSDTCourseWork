@@ -8,6 +8,7 @@ import { Person } from '../../Interfaces/Person';
 import { useForm, Controller } from 'react-hook-form';
 import * as Api from '../../APIs/PeopleApi';
 import InputLabel from '@mui/material/InputLabel';
+import '../../Styles/PeoplePageModals.css';
 
 interface EditPersonModalProps {
   person: Person;
@@ -50,11 +51,14 @@ export default function EditPersonModal({ person, open, onClose }: EditPersonMod
   return (
     <Modal open={open} onClose={handleClose}>
       <Box className="modal-container">
-        <Typography className="modal-title" sx={{ mt: 2 }}>
+
+        <div className="Caption">
           Edit Person
-        </Typography>
+        </div>
+
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div> Id: {person.id} </div>
+          <div className='Text'> Id: {person.id} </div>
+
           <TextField
             {...register('name')}
             id="outlined-basic"
