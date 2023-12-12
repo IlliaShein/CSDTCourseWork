@@ -1,17 +1,5 @@
 import { useState } from "react";
-import {
-  Box,
-  Modal,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Checkbox,
-  Button,
-} from "@mui/material";
+import { Box, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, Button, } from "@mui/material";
 import { GetPersonsContext } from "../../App";
 import { CreateContext } from "../../context/context";
 import { Person } from "../../Interfaces/Person";
