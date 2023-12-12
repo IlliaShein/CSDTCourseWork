@@ -5,6 +5,7 @@ import * as Api from '../../../APIs/HistoryApi';
 import { Transaction } from '../../../Interfaces/Transaction';
 import { CreateContext } from '../../../context/context';
 import { GetTransactionsContext } from './HistoryPage';
+import React from 'react';
 
 interface TransactionsTableActionButtonsProps {
   transaction: Transaction;
