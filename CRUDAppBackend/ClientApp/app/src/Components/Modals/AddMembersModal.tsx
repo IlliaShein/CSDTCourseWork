@@ -4,6 +4,7 @@ import { GetPersonsContext } from "../../App";
 import { CreateContext } from "../../context/context";
 import { Person } from "../../Interfaces/Person";
 import '../../Styles/PeoplePageModals.css';
+import React from "react";
 
 interface AddPersonModalProps {
   open: boolean;
