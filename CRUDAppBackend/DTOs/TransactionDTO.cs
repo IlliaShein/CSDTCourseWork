@@ -1,6 +1,4 @@
-﻿using CRUDAppBackend.DB;
-
-namespace CRUDAppBackend.DTOs
+﻿namespace CRUDAppBackend.DTOs
 {
     public class TransactionDTO
     {

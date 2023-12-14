@@ -1,11 +1,8 @@
-using AutoMapper;
-using CRUDAppBackend.DTOs;
 using CRUDAppBackend.Interfaces;
 using CRUDAppBackend.Managers;
 using CRUDAppBackend.Middlewares;
 using DbLib.Models.EntityFramework;
 using Microsoft.EntityFrameworkCore;
-using System.Transactions;
 
 namespace CRUDAppBackend
 {

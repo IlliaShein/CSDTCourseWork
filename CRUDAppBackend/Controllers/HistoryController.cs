@@ -16,7 +16,7 @@ namespace CRUDAppBackend.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetGetTransactions()
+        public async Task<IActionResult> GetTransactions()
         {
             var transactions = await _historyManager.GetTransactions();
             return Ok(transactions);
@@ -25,7 +25,7 @@ namespace CRUDAppBackend.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTransaction(int id)
         {
-            var transaction = await _historyManager.GetTransaction(id);
+            var transaction = await _historyManager.GetTransactionById(id);
             return Ok(transaction);
         }
 

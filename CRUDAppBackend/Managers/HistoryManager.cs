@@ -7,41 +7,36 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CRUDAppBackend.Managers
 {
-    public class HistoryManager : IHistoryManager
+    public class HistoryManager : Manager , IHistoryManager
     {
-        private readonly MyDbContext _dbContext;
-        private readonly IMapper _mapper;
-
-        public HistoryManager(MyDbContext dbContext, IMapper mapper)
+        public HistoryManager(MyDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
-            _dbContext = dbContext;
-            _mapper = mapper;
         }
 
         public async Task<List<TransactionDTO>> GetTransactions()
         {
-           var transactions = await _dbContext.Transactions.ToListAsync();
-           return _mapper.Map<List<TransactionDTO>>(transactions);
+           var transactions = await DbContext.Transactions.ToListAsync();
+           return Mapper.Map<List<TransactionDTO>>(transactions);
         }
 
-        public async Task<TransactionDTO> GetTransaction(int id)
+        public async Task<TransactionDTO> GetTransactionById(int id)
         {
-            var transaction = await _dbContext.Transactions.FindAsync(id);
+            var transaction = await DbContext.Transactions.FindAsync(id);
             if (transaction == null)
             {
                 throw new InvalidOperationException($"Person with id \"{id}\" not found");
             }
 
-            return _mapper.Map<TransactionDTO>(transaction);
+            return Mapper.Map<TransactionDTO>(transaction);
         }
 
         public async Task<List<PersonPaymentDTO>> GetPersonPaymentsByTransactionId(int id)
         {
-            var personPayments = await _dbContext.PersonPayments
-                .Where(payment => payment.Transaction.Id == id)
+            var personPayments = await DbContext.PersonPayments
+                .Where(p => p.Transaction.Id == id)
                 .ToListAsync();
 
-            var personPaymentDTOs = personPayments.Select(payment => _mapper.Map<PersonPaymentDTO>(payment)).ToList();
+            var personPaymentDTOs = personPayments.Select(Mapper.Map<PersonPaymentDTO>).ToList();
 
             return personPaymentDTOs;
         }
@@ -49,34 +44,43 @@ namespace CRUDAppBackend.Managers
 
         public async Task DeleteTransaction(int id)
         {
-            var transactions = await _dbContext.Transactions.FindAsync(id);
-            if (transactions == null)
+            var transaction = await DbContext.Transactions.FindAsync(id);
+            if (transaction == null)
             {
-                throw new InvalidOperationException($"Person with id \"{id}\" not found");
+                throw new InvalidOperationException($"Transaction with id \"{id}\" not found");
             }
 
-            _dbContext.Transactions.Remove(transactions);
-            await _dbContext.SaveChangesAsync();
+            DbContext.Transactions.Remove(transaction);
+            await DbContext.SaveChangesAsync();
         }
 
-        public async Task CreateTransaction(PersonPaymentDTO[] payments)
+        public async Task CreateTransaction(PersonPaymentDTO[] paymentsDTO)
         {
-            double dollarSum = payments.Sum(payment => payment.Dollar);
-            double hryvniaSum = payments.Sum(payment => payment.Hryvnia);
-            int participantsCount = payments.Length;
+            var payments = Mapper.Map<List<PersonPayment>>(paymentsDTO);
 
-            Transaction newTransaction = new Transaction(dollarSum, hryvniaSum, participantsCount, DateTime.Now);
-            await _dbContext.Transactions.AddAsync(newTransaction);
-            await _dbContext.SaveChangesAsync();
+            Transaction newTransaction = CreateTransactionFromPayments(payments);
+            await ConnectPaymentsToTransaction(payments, newTransaction);
 
-            foreach (var payment in payments)
+            await DbContext.SaveChangesAsync();
+        }
+
+        private Transaction CreateTransactionFromPayments(List<PersonPayment> payments)
+        {
+            double dollarSum = payments.Sum(p => p.Dollar);
+            double hryvniaSum = payments.Sum(p => p.Hryvnia);
+            int participantsCount = payments.Count;
+
+            return new Transaction(dollarSum, hryvniaSum, participantsCount, DateTime.Now);
+        }
+
+        private async Task ConnectPaymentsToTransaction(List<PersonPayment> payments, Transaction transaction)
+        {
+            foreach (var p in payments)
             {
-                var newPersonPayment = _mapper.Map<PersonPayment>(payment);
-                newPersonPayment.Transaction = newTransaction;
-                await _dbContext.PersonPayments.AddAsync(newPersonPayment);
+                var newPersonPayment = Mapper.Map<PersonPayment>(p);
+                newPersonPayment.Transaction = transaction;
+                await DbContext.PersonPayments.AddAsync(newPersonPayment);
             }
-
-            await _dbContext.SaveChangesAsync();
         }
     }
 }

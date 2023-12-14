@@ -1,9 +1,8 @@
 using CRUDAppBackend.DTOs;
 using CRUDAppBackend.Interfaces;
-using CRUDAppBackend.Managers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ReactCRUD.Controllers
+namespace CRUDAppBackend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -17,7 +16,7 @@ namespace ReactCRUD.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetAll()
         {
             var people = await _personManager.GetAll();
             return Ok(people);
@@ -45,7 +44,7 @@ namespace ReactCRUD.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] PersonDTO changedPerson)
+        public async Task<IActionResult> Change([FromBody] PersonDTO changedPerson)
         {
             await _personManager.Change(changedPerson);
             return Ok();

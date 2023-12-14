@@ -1,6 +1,4 @@
-﻿using CRUDAppBackend.DTOs;
-
-namespace ReactCRUD.DB
+﻿namespace CRUDAppBackend.DB
 {
     public class Person
     {
