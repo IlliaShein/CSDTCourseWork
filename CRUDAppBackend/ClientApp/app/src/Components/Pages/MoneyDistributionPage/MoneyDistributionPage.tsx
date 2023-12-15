@@ -1,11 +1,13 @@
-import { Box, Button, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import CurrencyButtons from "./CurrencyButtons";
+import { Box } from "@mui/material";
 import { useState } from "react";
-import AddMembersModal from "../../Modals/AddMembersModal";
+import AddMembersModal from "../../Modals/AddMembersModal/AddMembersModal";
 import "../../../Styles/MoneyDistributionPageModals.css";
 import { Person } from "../../../Interfaces/Person";
 import { PersonPayment } from "../../../Interfaces/PersonPayment";
 import * as Api from '../../../APIs/HistoryApi';
+import MoneyDistributionPageButtons from "./MoneyDistributionPageButtons";
+import CurrencyInputs from "./CurrencyInputs";
+import MoneyDistributionPageTable from "./MoneyDistributionPageTable";
 
 function MoneyDistributionPage() {
   const [isAddMembersModalOpen, setAddMembersModalOpen] = useState(false);
@@ -99,17 +101,17 @@ function MoneyDistributionPage() {
     setSelectedPersons(updatedSelectedPersons);
   };
 
-  const createTransaction = (payments: PersonPayment[]) => {
-    if(payments.length != 0)
+  const createTransaction = () => {
+    if(selectedPersons.length !== 0)
     {
-      Api.createTransaction(payments);
+      Api.createTransaction(selectedPersons);
     }
   }
 
   return (
     <div>
       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <CurrencyButtons
+        <CurrencyInputs
           dollarValue={dollarValue}
           hryvniaValue={hryvniaValue}
           currency={currency}
@@ -118,57 +120,11 @@ function MoneyDistributionPage() {
           onCurrencyChange={setCurrency}
           onInputChange={refineTableAfterCurrencyChanging}
         />
-        <Box sx={{ marginTop: 3 }}>
-          <Stack direction="row" spacing={2}>
-            <Button
-              variant="contained"
-              color="success"
-              size="large"
-              onClick={handleAddButtonClick}
-            >
-              Add members
-            </Button>
-            <Button
-              variant="contained"
-              color="success"
-              size="large"
-              onClick={() => createTransaction(selectedPersons)}
-            >
-              Save
-            </Button>
-          </Stack>
-        </Box>
+        <MoneyDistributionPageButtons handleAddButtonClick={handleAddButtonClick} createTransaction={createTransaction}/>
       </Box>
+
       <hr />
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Percent/Rate</TableCell>
-              <TableCell>Hryvnia</TableCell>
-              <TableCell>Dollar</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {selectedPersons.map((row: PersonPayment) => (
-              <TableRow
-                key={row.name}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell>{row.name}</TableCell>
-                {row.isPercent ? (
-                  <TableCell>{row.rate} %</TableCell>
-                ) : (
-                  <TableCell>{row.rate}</TableCell>
-                )}
-                <TableCell>{row.hryvnia}</TableCell>
-                <TableCell>{row.dollar}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <MoneyDistributionPageTable selectedPersons={selectedPersons} />
 
       <AddMembersModal
         open={isAddMembersModalOpen}
